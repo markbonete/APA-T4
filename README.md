@@ -1,6 +1,6 @@
 # Cuarta tarea de APA 2023: Generación de números aleatorios
 
-## Nom i cognoms
+## Mark Bonete Ventura
 
 ## Generación de números aleatorios usando el algoritmo LGC
 
@@ -165,11 +165,102 @@ Inserte a continuación una captura de pantalla que muestre el resultado de ejec
 fichero `aleatorios.py` con la opción *verbosa*, de manera que se muestre el
 resultado de la ejecución de los tests unitarios.
 
+![image](https://github.com/user-attachments/assets/95fa69fa-ef20-4116-9d0f-7738a83178e4)
+![image](https://github.com/user-attachments/assets/c33f0364-1f84-4be7-acca-facce3b0752a)
+
+
 #### Código desarrollado
 
 Inserte a continuación el código de los métodos desarrollados en esta tarea, usando los
 comandos necesarios para que se realice el realce sintáctico en Python del mismo (no
 vale insertar una imagen o una captura de pantalla, debe hacerse en formato *markdown*).
+
+```p
+"""
+    Quarta tasca APA: Generació de nombres aleatoris
+    
+    Mark Bonete Ventura
+
+    
+    >>> rand = Aleat(m=32, a=9, c=13, x0=11)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    16
+    29
+    18
+    15
+    
+    >>> rand(29)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    18
+    15
+    20
+    1
+    
+    >>> rand = aleat(m=64, a=5, c=46, x0=36)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    34
+    24
+    38
+    44
+    
+    >>> rand.send(24)
+    38
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    ...
+    44
+    10
+    32
+    14
+"""
+
+class Aleat:
+
+    def __init__(self, m=2**48, a=25214903917, c=11, x0=1212121):
+        self.m = m
+        self.a = a
+        self.c = c
+        self.x = x0
+    
+    def  __next__(self):
+        self.x = (self.a * self.x + self.c) % self.m
+        return self.x
+
+
+    def __call__(self,num): 
+        self.x = num
+
+    def send(self, num):
+        self.x = num 
+        return next(self)
+    
+def aleat(m=2**48, a=25214903917, c=11,x0=1212121):
+    """
+    Funció que genera un generador de números aleatorios
+    
+    :param m: Mòdul del generador (per defecte 2^48)
+    :param a: Multiplicador del generador (per defecte 25214903917)
+    :param c: Increment del generador (per defecte 11)
+    :param x0: Valor inicial del generador (per defecte 1212121)
+    :return: Un generador de números aleatoris
+    """
+    x = x0
+    while True:
+        x = (a * x + c) % m
+        num = yield x
+        if num is not None:
+            x = num
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+```
 
 #### Subida del resultado al repositorio GitHub y *pull-request*
 
